@@ -11,7 +11,7 @@ const BarChart = lazy(() => import('../Charts/Barchart'));
 const LineChart = lazy(() => import('../Charts/Linechart'));
 
 const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery('(max-width:768px)');
   const [filters, setFilters] = useState<FiltersProps>({
     dateRange: {
       startDate: null,
@@ -139,7 +139,9 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
           <Grid2
             size={2}
             sx={{
-              height: '40vh',
+              height: {
+                lg: '40vh',
+              },
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -154,7 +156,9 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
           <Grid2
             size={9}
             sx={{
-              height: '40vh',
+              height: {
+                lg: '40vh',
+              },
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',

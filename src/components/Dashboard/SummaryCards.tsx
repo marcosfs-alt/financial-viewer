@@ -50,7 +50,8 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({
         p: 4,
         borderRadius: 8,
         width: {
-          xs: '94vw',
+          xs: '90vw',
+          md: '60vw',
           lg: '100%',
         },
         height: {
