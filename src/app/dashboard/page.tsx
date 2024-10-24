@@ -7,7 +7,17 @@ export default async function DashboardPage() {
   const transactions = await getTransactions();
 
   return (
-    <Box sx={{ width: '100%', height: '100vh', display: 'flex' }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: {
+          xs: 'column',
+          lg: 'row',
+        },
+      }}
+    >
       <Sidebar />
       <Box
         sx={{

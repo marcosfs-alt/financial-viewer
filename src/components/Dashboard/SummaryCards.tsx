@@ -49,10 +49,13 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({
         background: grey[100],
         p: 4,
         borderRadius: 8,
-        width: '100%',
+        width: {
+          xs: '94vw',
+          lg: '100%',
+        },
         height: {
           xs: 200,
-          md: 400,
+          lg: 400,
         },
       }}
     >

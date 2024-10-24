@@ -39,16 +39,38 @@ const Filters: React.FC<FiltersComponentProps> = ({
       <Box
         sx={{
           display: 'flex',
+          justifyContent: {
+            xs: 'center',
+          },
+          alignItems: {
+            xs: 'center',
+          },
           flexDirection: {
             xs: 'column',
             md: 'row',
+          },
+          width: {
+            xs: '66%',
+            md: '80vw',
           },
           gap: 2,
         }}
         justifyContent="center"
         alignItems="center"
       >
-        <Box display="flex" gap={2}>
+        <Box
+          display="flex"
+          gap={2}
+          sx={{
+            display: 'flex',
+            justifyContent: {
+              xs: 'center',
+            },
+            alignItems: {
+              xs: 'center',
+            },
+          }}
+        >
           <DatePicker
             label="Data Inicial"
             value={filters.dateRange.startDate}

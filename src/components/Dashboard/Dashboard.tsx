@@ -1,7 +1,7 @@
 'use client';
 
 import { DataType, FiltersProps, Transaction } from '@/types';
-import { Box, Button, Grid2 } from '@mui/material';
+import { Box, Button, Grid2, useMediaQuery } from '@mui/material';
 import SummaryCards from './SummaryCards';
 import { Suspense, lazy, useCallback, useMemo, useState } from 'react';
 import Filters from './Filters';
@@ -11,6 +11,7 @@ const BarChart = lazy(() => import('../Charts/Barchart'));
 const LineChart = lazy(() => import('../Charts/Linechart'));
 
 const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
+  const isMobile = useMediaQuery('(max-width:600px)');
   const [filters, setFilters] = useState<FiltersProps>({
     dateRange: {
       startDate: null,
@@ -67,13 +68,22 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
     <Box
       sx={{
         padding: 4,
-        gap: 8,
+        gap: {
+          xs: 2,
+          lg: 8,
+        },
         display: 'flex',
         flexDirection: 'column',
-        p: 8,
+        p: {
+          xs: 0,
+          lg: 8,
+        },
       }}
     >
-      <Grid2 size={12}>
+      <Grid2
+        size={12}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
         <Filters
           allTransactions={transactions}
           filters={filters}
@@ -118,6 +128,10 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
           size={11}
           sx={{
             display: 'flex',
+            flexDirection: {
+              xs: 'column',
+              lg: 'row',
+            },
             justifyContent: 'center',
             alignItems: 'center',
             gap: 2,
@@ -154,13 +168,16 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    width: 730,
+                    width: {
+                      xs: '100%',
+                      lg: 730,
+                    },
                     background: grey[100],
                     padding: 8,
                     borderRadius: 8,
                     height: {
                       xs: 200,
-                      md: 400,
+                      lg: 400,
                     },
                   }}
                 >
@@ -169,9 +186,15 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
               }
             >
               {dataType === DataType.T ? (
-                <BarChart transactions={filteredTransactions} />
+                <BarChart
+                  transactions={filteredTransactions}
+                  isMobile={isMobile}
+                />
               ) : (
-                <LineChart transactions={filteredTransactions} />
+                <LineChart
+                  transactions={filteredTransactions}
+                  isMobile={isMobile}
+                />
               )}
             </Suspense>
           </Grid2>
