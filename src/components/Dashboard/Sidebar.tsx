@@ -24,10 +24,18 @@ const Sidebar: React.FC = () => {
     <>
       <Button
         onClick={() => setOpen(true)}
-        variant="contained"
-        sx={{ width: '40px', height: '40px' }}
+        variant="outlined"
+        sx={{
+          width: '30px',
+          height: '30px',
+          color: 'white',
+          fontSize: '32px',
+          fontWeight: 800,
+          borderRight: '1px solid black',
+          borderBottom: '1px solid black',
+        }}
       >
-        Menu
+        &#8801;
       </Button>
       <Drawer open={open} onClose={() => setOpen(false)}>
         <Box

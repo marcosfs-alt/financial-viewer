@@ -34,7 +34,12 @@ export default function Home() {
           <Typography
             variant="h3"
             gutterBottom
-            sx={{ color: 'white', fontWeight: 600 }}
+            sx={{
+              color: 'white',
+              fontWeight: 600,
+              textJustify: 'center',
+              textAlign: 'center',
+            }}
           >
             Bem-vindo ao Financial Viewer
           </Typography>
