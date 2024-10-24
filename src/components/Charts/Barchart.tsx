@@ -72,7 +72,7 @@ const BarChart: React.FC<BarChartProps> = React.memo(
       >
         <ResponsiveContainer width="100%" height="250px">
           <RechartsBarChart
-            width={isMobile ? 390 : 730}
+            width={isMobile ? 380 : 730}
             height={250}
             data={data}
             layout="vertical"

@@ -67,7 +67,6 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
   return (
     <Box
       sx={{
-        padding: 4,
         gap: {
           xs: 2,
           lg: 8,
@@ -169,7 +168,7 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: {
-                      xs: '100%',
+                      xs: '94%',
                       lg: 730,
                     },
                     background: grey[100],
