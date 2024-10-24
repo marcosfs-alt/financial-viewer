@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { Transaction } from '@/types';
 import { Box } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 
 interface BarChartProps {
   transactions: Transaction[];
@@ -64,8 +64,13 @@ const BarChart: React.FC<BarChartProps> = ({ transactions }) => {
           <YAxis dataKey="industry" type="category" width={100} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="deposit" stackId="a" fill="#82ca9d" name="Receitas" />
-          <Bar dataKey="withdraw" stackId="a" fill="#8884d8" name="Despesas" />
+          <Bar
+            dataKey="deposit"
+            stackId="a"
+            fill={green[500]}
+            name="Receitas"
+          />
+          <Bar dataKey="withdraw" stackId="a" fill={red[500]} name="Despesas" />
         </RechartsBarChart>
       </ResponsiveContainer>
     </Box>
