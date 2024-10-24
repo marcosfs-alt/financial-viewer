@@ -4,6 +4,7 @@ import { Grid2 } from '@mui/material';
 import LoginForm from './LoginForm';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const LoginCard = () => {
   const [formData, setFormData] = useState<{ email: string; password: string }>(
@@ -18,7 +19,7 @@ const LoginCard = () => {
       formData.email === 'example@test.com' &&
       formData.password === 'example'
     ) {
-      localStorage.setItem('authToken', 'fake-jwt-token');
+      Cookies.set('authToken', 'fake-jwt-token');
       router.push('/dashboard');
       return;
     }
