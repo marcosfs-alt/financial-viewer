@@ -68,7 +68,7 @@ const LineChart: React.FC<LineChartProps> = React.memo(
           },
           borderRadius: 8,
           width: {
-            xs: '94%',
+            xs: '100%',
           },
           height: {
             xs: 400,
@@ -82,7 +82,7 @@ const LineChart: React.FC<LineChartProps> = React.memo(
         <ResponsiveContainer width="100%" height="250px">
           <RechartsLineChart
             data={data}
-            width={isMobile ? 380 : 730}
+            width={isMobile ? 350 : 730}
             height={250}
           >
             <XAxis dataKey="date" />
