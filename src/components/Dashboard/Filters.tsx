@@ -41,7 +41,13 @@ const Filters: React.FC<FiltersComponentProps> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box display="flex" flexDirection="column" gap={2}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        gap={2}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Box display="flex" gap={2}>
           <DatePicker
             label="Data Inicial"
@@ -52,7 +58,24 @@ const Filters: React.FC<FiltersComponentProps> = ({
                 dateRange: { ...prev.dateRange, startDate: date },
               }))
             }
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                sx={{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  '.MuiSvgIcon-root': {
+                    color: 'black',
+                  },
+                  '& label': {
+                    color: 'black',
+                  },
+                  '& label.Mui-focused': {
+                    color: 'black',
+                  },
+                }}
+              />
+            )}
           />
           <DatePicker
             label="Data Final"
@@ -63,15 +86,55 @@ const Filters: React.FC<FiltersComponentProps> = ({
                 dateRange: { ...prev.dateRange, endDate: date },
               }))
             }
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                sx={{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  '.MuiSvgIcon-root': {
+                    color: 'black',
+                  },
+                  '& label': {
+                    color: 'black',
+                  },
+                  '& label.Mui-focused': {
+                    color: 'black',
+                  },
+                }}
+              />
+            )}
           />
         </Box>
 
-        <FormControl fullWidth>
-          <InputLabel id="accounts-label">Contas</InputLabel>
+        <FormControl sx={{ width: '15%' }}>
+          <InputLabel
+            id="accounts-label"
+            sx={{
+              color: 'black',
+              '&.Mui-focused': {
+                color: 'black',
+              },
+            }}
+          >
+            Contas
+          </InputLabel>
           <Select
             labelId="accounts-label"
             multiple
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '.MuiSvgIcon-root': {
+                color: 'black',
+              },
+            }}
             value={filters.accounts}
             onChange={(event) =>
               setFilters((prev) => ({
@@ -82,18 +145,50 @@ const Filters: React.FC<FiltersComponentProps> = ({
             renderValue={(selected) => selected.join(', ')}
           >
             {accounts.map((account) => (
-              <MenuItem key={account} value={account}>
+              <MenuItem
+                key={account}
+                value={account}
+                sx={{
+                  color: 'black',
+                  '&.Mui-focused': {
+                    color: 'black',
+                  },
+                }}
+              >
                 {account}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-          <InputLabel id="industries-label">Indústrias</InputLabel>
+        <FormControl sx={{ width: '15%' }}>
+          <InputLabel
+            id="industries-label"
+            sx={{
+              color: 'black',
+              '&.Mui-focused': {
+                color: 'black',
+              },
+            }}
+          >
+            Indústrias
+          </InputLabel>
           <Select
             labelId="industries-label"
             multiple
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '.MuiSvgIcon-root': {
+                color: 'black',
+              },
+            }}
             value={filters.industries}
             onChange={(event) =>
               setFilters((prev) => ({
@@ -111,11 +206,34 @@ const Filters: React.FC<FiltersComponentProps> = ({
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-          <InputLabel id="states-label">Estados</InputLabel>
+        <FormControl sx={{ width: '15%' }}>
+          <InputLabel
+            id="states-label"
+            sx={{
+              color: 'black',
+              '&.Mui-focused': {
+                color: 'black',
+              },
+            }}
+          >
+            Estados
+          </InputLabel>
           <Select
             labelId="states-label"
             multiple
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              '.MuiSvgIcon-root': {
+                color: 'black',
+              },
+            }}
             value={filters.states}
             onChange={(event) =>
               setFilters((prev) => ({
