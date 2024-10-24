@@ -64,7 +64,15 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
   }, []);
 
   return (
-    <Box sx={{ padding: 4, gap: 8, display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        padding: 4,
+        gap: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        p: 8,
+      }}
+    >
       <Grid2 size={12}>
         <Filters
           allTransactions={transactions}
