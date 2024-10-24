@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -16,27 +16,34 @@ interface BarChartProps {
   transactions: Transaction[];
 }
 
-const BarChart: React.FC<BarChartProps> = ({ transactions }) => {
-  const dataMap: {
-    [industry: string]: { industry: string; deposit: number; withdraw: number };
-  } = {};
+const BarChart: React.FC<BarChartProps> = React.memo(({ transactions }) => {
+  const data = useMemo(() => {
+    const dataMap: {
+      [industry: string]: {
+        industry: string;
+        deposit: number;
+        withdraw: number;
+      };
+    } = {};
 
-  transactions.forEach((transaction) => {
-    const industry = transaction.industry;
-    const amount = parseInt(transaction.amount, 10) / 100;
-    if (!dataMap[industry]) {
-      dataMap[industry] = { industry, deposit: 0, withdraw: 0 };
-    }
-    if (transaction.transaction_type === 'deposit') {
-      dataMap[industry].deposit += amount;
-    } else if (transaction.transaction_type === 'withdraw') {
-      dataMap[industry].withdraw += amount;
-    }
-  });
+    transactions.forEach((transaction) => {
+      const industry = transaction.industry;
+      const amount = parseInt(transaction.amount, 10) / 100;
+      if (!dataMap[industry]) {
+        dataMap[industry] = { industry, deposit: 0, withdraw: 0 };
+      }
+      if (transaction.transaction_type === 'deposit') {
+        dataMap[industry].deposit += amount;
+      } else if (transaction.transaction_type === 'withdraw') {
+        dataMap[industry].withdraw += amount;
+      }
+    });
 
-  const data = Object.values(dataMap);
+    const dataArray = Object.values(dataMap);
+    dataArray.sort((a, b) => b.deposit + b.withdraw - (a.deposit + a.withdraw));
 
-  data.sort((a, b) => b.deposit + b.withdraw - (a.deposit + a.withdraw));
+    return dataArray;
+  }, [transactions]);
 
   return (
     <Box
@@ -75,6 +82,8 @@ const BarChart: React.FC<BarChartProps> = ({ transactions }) => {
       </ResponsiveContainer>
     </Box>
   );
-};
+});
+
+BarChart.displayName = 'BarChart';
 
 export default BarChart;

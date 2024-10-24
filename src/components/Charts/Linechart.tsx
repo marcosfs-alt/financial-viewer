@@ -9,17 +9,19 @@ import {
 } from 'recharts';
 import { Transaction } from '@/types';
 import { Box, Typography } from '@mui/material';
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
 
 interface LineChartProps {
   transactions: Transaction[];
 }
 
-const LineChart: React.FC<LineChartProps> = ({ transactions }) => {
+const LineChart: React.FC<LineChartProps> = React.memo(({ transactions }) => {
   const data = useMemo(() => {
-    const sortedTransactions = [...transactions].sort(
-      (a, b) => a.date - b.date,
-    );
+    if (transactions.length === 0) return [];
+
+    const sortedTransactions = transactions
+      .slice()
+      .sort((a, b) => a.date - b.date);
 
     let cumulativeBalance = 0;
     const dataPoints: { date: string; balance: number }[] = [];
@@ -31,22 +33,20 @@ const LineChart: React.FC<LineChartProps> = ({ transactions }) => {
 
       const date = format(new Date(transaction.date), 'dd/MM/yyyy');
 
-      const existingDataPoint = dataPoints.find((d) => d.date === date);
-      if (existingDataPoint) {
-        existingDataPoint.balance = cumulativeBalance;
+      const lastDataPoint = dataPoints[dataPoints.length - 1];
+      if (lastDataPoint && lastDataPoint.date === date) {
+        lastDataPoint.balance = cumulativeBalance;
       } else {
         dataPoints.push({ date, balance: cumulativeBalance });
       }
     });
 
-    dataPoints.sort((a, b) => {
-      const dateA = parse(a.date, 'dd/MM/yyyy', new Date());
-      const dateB = parse(b.date, 'dd/MM/yyyy', new Date());
-      return dateA.getTime() - dateB.getTime();
-    });
-
     return dataPoints;
   }, [transactions]);
+
+  const tooltipFormatter = (value: number) => {
+    return value.toFixed(2);
+  };
 
   return (
     <Box
@@ -69,7 +69,7 @@ const LineChart: React.FC<LineChartProps> = ({ transactions }) => {
         <RechartsLineChart data={data} width={730} height={250}>
           <XAxis dataKey="date" />
           <YAxis />
-          <Tooltip />
+          <Tooltip formatter={tooltipFormatter} />
           <Line
             type="monotone"
             dataKey="balance"
@@ -81,6 +81,8 @@ const LineChart: React.FC<LineChartProps> = ({ transactions }) => {
       </ResponsiveContainer>
     </Box>
   );
-};
+});
+
+LineChart.displayName = 'LineChart';
 
 export default LineChart;

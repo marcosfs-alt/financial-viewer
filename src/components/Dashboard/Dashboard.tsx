@@ -3,14 +3,14 @@
 import { DataType, FiltersProps, Transaction } from '@/types';
 import { Box, Button, Grid2 } from '@mui/material';
 import SummaryCards from './SummaryCards';
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useMemo, useState } from 'react';
 import Filters from './Filters';
-import BarChart from '../Charts/Barchart';
-import LineChart from '../Charts/Linechart';
+import { grey } from '@mui/material/colors';
+import BlueSpinner from '../Loading/BlueSpinner';
+const BarChart = lazy(() => import('../Charts/Barchart'));
+const LineChart = lazy(() => import('../Charts/Linechart'));
 
 const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
-  const [filteredTransactions, setFilteredTransactions] =
-    useState<Transaction[]>(transactions);
   const [filters, setFilters] = useState<FiltersProps>({
     dateRange: {
       startDate: null,
@@ -22,7 +22,7 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
   });
   const [dataType, setDataType] = useState<DataType>(DataType.T);
 
-  const applyFilters = useCallback(() => {
+  const filteredTransactions = useMemo(() => {
     let filtered = transactions;
 
     if (filters.dateRange.startDate || filters.dateRange.endDate) {
@@ -56,16 +56,12 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
       );
     }
 
-    setFilteredTransactions(filtered);
+    return filtered;
   }, [filters, transactions]);
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, applyFilters]);
-
-  function handleChangeData(type: DataType) {
+  const handleChangeData = useCallback((type: DataType) => {
     setDataType(type);
-  }
+  }, []);
 
   return (
     <Box sx={{ padding: 4, gap: 8, display: 'flex', flexDirection: 'column' }}>
@@ -139,11 +135,33 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
               alignItems: 'center',
             }}
           >
-            {DataType.T === dataType ? (
-              <BarChart transactions={filteredTransactions} />
-            ) : (
-              <LineChart transactions={filteredTransactions} />
-            )}
+            <Suspense
+              fallback={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 730,
+                    background: grey[100],
+                    padding: 8,
+                    borderRadius: 8,
+                    height: {
+                      xs: 200,
+                      md: 400,
+                    },
+                  }}
+                >
+                  <BlueSpinner />
+                </Box>
+              }
+            >
+              {dataType === DataType.T ? (
+                <BarChart transactions={filteredTransactions} />
+              ) : (
+                <LineChart transactions={filteredTransactions} />
+              )}
+            </Suspense>
           </Grid2>
         </Grid2>
       </Grid2>
