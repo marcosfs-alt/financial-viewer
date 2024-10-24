@@ -38,7 +38,7 @@ const BarChart: React.FC<BarChartProps> = ({ transactions }) => {
   data.sort((a, b) => b.deposit + b.withdraw - (a.deposit + a.withdraw));
 
   return (
-    <Box sx={{ width: '100%', height: 400 }}>
+    <Box>
       <ResponsiveContainer width="100%" height="100%">
         <RechartsBarChart
           width={730}

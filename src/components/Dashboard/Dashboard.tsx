@@ -1,7 +1,7 @@
 'use client';
 
 import { FiltersProps, Transaction } from '@/types';
-import { Box } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import SummaryCards from './SummaryCards';
 import { useCallback, useEffect, useState } from 'react';
 import Filters from './Filters';
@@ -62,15 +62,19 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
   }, [filters, applyFilters]);
 
   return (
-    <Box>
-      <Filters
-        allTransactions={transactions}
-        filters={filters}
-        setFilters={setFilters}
-      />
-      <SummaryCards transactions={filteredTransactions} />
-      <BarChart transactions={filteredTransactions} />
-    </Box>
+    <Grid2 container spacing={2}>
+      <Grid2 size={12}>
+        <Filters
+          allTransactions={transactions}
+          filters={filters}
+          setFilters={setFilters}
+        />
+      </Grid2>
+      <Grid2 size={12} sx={{ display: 'flex' }}>
+        <SummaryCards transactions={filteredTransactions} />
+        <BarChart transactions={filteredTransactions} />
+      </Grid2>
+    </Grid2>
   );
 };
 
