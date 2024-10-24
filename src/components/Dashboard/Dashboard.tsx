@@ -132,7 +132,11 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
               alignItems: 'center',
             }}
           >
-            <SummaryCards transactions={filteredTransactions} />
+            <SummaryCards
+              allTransactions={transactions}
+              transactions={filteredTransactions}
+              endDate={filters.dateRange.endDate}
+            />
           </Grid2>
           <Grid2
             size={9}

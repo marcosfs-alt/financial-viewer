@@ -5,9 +5,15 @@ import { green, grey, purple, red } from '@mui/material/colors';
 
 interface SummaryCardsProps {
   transactions: Transaction[];
+  endDate: Date | null;
+  allTransactions: Transaction[];
 }
 
-const SummaryCards: React.FC<SummaryCardsProps> = ({ transactions }) => {
+const SummaryCards: React.FC<SummaryCardsProps> = ({
+  transactions,
+  endDate,
+  allTransactions,
+}) => {
   const income = transactions
     .filter((t) => t.transaction_type === 'deposit')
     .reduce((acc, curr) => acc + parseInt(curr.amount, 10), 0);
@@ -16,7 +22,19 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ transactions }) => {
     .filter((t) => t.transaction_type === 'withdraw')
     .reduce((acc, curr) => acc + parseInt(curr.amount, 10), 0);
 
-  const totalTransactions = transactions.length;
+  const isFutureDate = (dateString: string | number) => {
+    const transactionDate = new Date(dateString);
+    const referenceDate = endDate ? new Date(endDate) : new Date();
+
+    transactionDate.setHours(0, 0, 0, 0);
+    referenceDate.setHours(0, 0, 0, 0);
+
+    return transactionDate > referenceDate;
+  };
+
+  const pendingTransactionsCount = allTransactions.filter((t) =>
+    isFutureDate(t.date),
+  ).length;
 
   const totalBalance = income - expenses;
 
@@ -59,7 +77,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ transactions }) => {
           Transações Pendentes
         </Typography>
         <Typography sx={{ fontWeight: 700, color: purple[300] }}>
-          {totalTransactions}
+          {pendingTransactionsCount}
         </Typography>
       </Box>
       <Box>

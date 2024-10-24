@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
     >
       <List component="nav">
         <Link href="/" passHref>
-          <ListItem component="a" sx={{ ':hover': { color: blue[900] } }}>
+          <ListItem sx={{ ':hover': { color: blue[900] } }}>
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
