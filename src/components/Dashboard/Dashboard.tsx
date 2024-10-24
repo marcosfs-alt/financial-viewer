@@ -1,11 +1,12 @@
 'use client';
 
-import { FiltersProps, Transaction } from '@/types';
-import { Box, Grid2 } from '@mui/material';
+import { DataType, FiltersProps, Transaction } from '@/types';
+import { Box, Button, Grid2 } from '@mui/material';
 import SummaryCards from './SummaryCards';
 import { useCallback, useEffect, useState } from 'react';
 import Filters from './Filters';
 import BarChart from '../Charts/Barchart';
+import LineChart from '../Charts/Linechart';
 
 const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
   const [filteredTransactions, setFilteredTransactions] =
@@ -19,6 +20,7 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
     industries: [],
     states: [],
   });
+  const [dataType, setDataType] = useState<DataType>(DataType.T);
 
   const applyFilters = useCallback(() => {
     let filtered = transactions;
@@ -61,6 +63,10 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
     applyFilters();
   }, [filters, applyFilters]);
 
+  function handleChangeData(type: DataType) {
+    setDataType(type);
+  }
+
   return (
     <Box sx={{ padding: 4, gap: 8, display: 'flex', flexDirection: 'column' }}>
       <Grid2 size={12}>
@@ -74,32 +80,71 @@ const Dashboard = ({ transactions }: { transactions: Transaction[] }) => {
         size={12}
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 2,
+          gap: 4,
         }}
       >
         <Grid2
-          size={2}
+          size={1}
           sx={{
-            height: '40vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            gap: 2,
           }}
         >
-          <SummaryCards transactions={filteredTransactions} />
+          <Button
+            variant="contained"
+            onClick={() => handleChangeData(DataType.T)}
+            disabled={dataType === DataType.T}
+          >
+            Total
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => handleChangeData(DataType.P)}
+            disabled={dataType === DataType.P}
+          >
+            Lucro
+          </Button>
         </Grid2>
         <Grid2
-          size={10}
+          size={11}
           sx={{
-            height: '40vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            gap: 2,
           }}
         >
-          <BarChart transactions={filteredTransactions} />
+          <Grid2
+            size={2}
+            sx={{
+              height: '40vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <SummaryCards transactions={filteredTransactions} />
+          </Grid2>
+          <Grid2
+            size={9}
+            sx={{
+              height: '40vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {DataType.T === dataType ? (
+              <BarChart transactions={filteredTransactions} />
+            ) : (
+              <LineChart transactions={filteredTransactions} />
+            )}
+          </Grid2>
         </Grid2>
       </Grid2>
     </Box>
