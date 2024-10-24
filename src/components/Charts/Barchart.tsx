@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { Transaction } from '@/types';
 import { Box } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 interface BarChartProps {
   transactions: Transaction[];
@@ -38,7 +39,20 @@ const BarChart: React.FC<BarChartProps> = ({ transactions }) => {
   data.sort((a, b) => b.deposit + b.withdraw - (a.deposit + a.withdraw));
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: grey[100],
+        padding: 8,
+        borderRadius: 8,
+        height: {
+          xs: 200,
+          md: 400,
+        },
+      }}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsBarChart
           width={730}
