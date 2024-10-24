@@ -1,7 +1,20 @@
-import { Box, Button } from '@mui/material';
+// src/app/page.tsx
+
+'use client';
+
+import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
+import { useLogout } from '@/hooks/useLogout';
 
 export default function Home() {
+  const isAuthenticated = useAuth();
+  const logout = useLogout();
+
+  if (isAuthenticated === null) {
+    return null;
+  }
+
   return (
     <Box
       display="flex"
@@ -10,23 +23,46 @@ export default function Home() {
       flexDirection="column"
       height="100vh"
     >
-      <header>
+      <main>
         <Box
-          sx={{
-            width: '100vw',
-            height: 11 / 12,
-            p: 2,
-            borderBottom: '1px solid ',
-          }}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+          height="100vh"
         >
-          <Link href="/login">
-            <Button variant="contained" sx={{ color: 'white' }}>
-              login
-            </Button>
-          </Link>
+          <Typography
+            variant="h3"
+            gutterBottom
+            sx={{ color: 'white', fontWeight: 600 }}
+          >
+            Bem-vindo ao Financial Viewer
+          </Typography>
+          {isAuthenticated ? (
+            <>
+              <Link href="/dashboard" passHref>
+                <Button variant="contained" color="primary" sx={{ m: 1 }}>
+                  Dashboard
+                </Button>
+              </Link>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={logout}
+                sx={{ m: 1 }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Link href="/login" passHref>
+              <Button variant="contained" color="primary" sx={{ m: 1 }}>
+                Fazer Login
+              </Button>
+            </Link>
+          )}
         </Box>
-      </header>
-      <main></main>
+      </main>
       <footer></footer>
     </Box>
   );

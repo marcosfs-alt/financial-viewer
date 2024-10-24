@@ -3,16 +3,11 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemText, Divider } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+import { useLogout } from '@/hooks/useLogout';
+import { blue } from '@mui/material/colors';
 
 const Sidebar: React.FC = () => {
-  const router = useRouter();
-
-  const handleLogout = () => {
-    Cookies.remove('authToken');
-    router.push('/login');
-  };
+  const logout = useLogout();
 
   return (
     <Box
@@ -26,12 +21,15 @@ const Sidebar: React.FC = () => {
     >
       <List component="nav">
         <Link href="/" passHref>
-          <ListItem component="a">
+          <ListItem component="a" sx={{ ':hover': { color: blue[900] } }}>
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
         <Divider />
-        <ListItem onClick={handleLogout}>
+        <ListItem
+          onClick={logout}
+          sx={{ cursor: 'pointer', ':hover': { color: blue[900] } }}
+        >
           <ListItemText primary="Logout" />
         </ListItem>
       </List>
